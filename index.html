@@ -3,114 +3,390 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>生日祝福🎉</title>
+    <title>魔法生日狂欢🎉</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@500;700&display=swap"
+        rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     <style>
-        body {
+        :root {
+            --primary: #FF6B6B;
+            --secondary: #4ECDC4;
+            --accent: #FFE66D;
+            --glass: rgba(255, 255, 255, 0.15);
+        }
+
+        * {
             margin: 0;
-            overflow: hidden;
-            font-family: 'Comic Sans MS', cursive;
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #ffe66d);
-            background-size: 600% 600%;
-            animation: gradientBG 15s ease infinite;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        .container {
-            text-align: center;
-            padding: 20px;
+        body {
+            font-family: 'Quicksand', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(45deg,
+                    #1a1a1a,
+                    #2d2d2d,
+                    #1a1a1a);
+            color: white;
+            overflow-x: hidden;
         }
 
-        h1 {
-            color: #fff;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-            animation: bounce 2s infinite;
+        /* 新增飞舞照片样式 */
+        .floating-photos {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 2;
         }
 
-        .photo {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            border: 5px solid white;
-            margin: 20px auto;
-            animation: rotate 8s linear infinite;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+        .floating-photo {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            border-radius: 20px;
+            box-shadow: 0 0 30px rgba(255, 107, 107, 0.5);
+            cursor: pointer;
+            transition:
+                transform 0.3s,
+                filter 0.3s;
             object-fit: cover;
         }
 
-        .message {
-            background: rgba(255, 255, 255, 0.9);
-            padding: 20px;
-            border-radius: 15px;
-            margin: 20px;
-            font-size: 18px;
+        .floating-photo:hover {
+            transform: scale(1.2) rotate(15deg);
+            filter: brightness(1.2);
+            z-index: 999;
         }
 
-        video {
-            width: 320px;
-            height: 240px;
-            margin: 20px auto;
+        .stars {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
         }
 
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
+        .container {
+            position: relative;
+            z-index: 1;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        :root {
+            --primary: #FF6B6B;
+            --secondary: #4ECDC4;
+            --accent: #FFE66D;
+            --glass: rgba(255, 255, 255, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(45deg,
+                    #1a1a1a,
+                    #2d2d2d,
+                    #1a1a1a);
+            color: white;
+            overflow-x: hidden;
+        }
+
+        .stars {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin: 4rem 0;
+            position: relative;
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 4.5rem;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(78, 170, 170, 0.624);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        .photo-container {
+            perspective: 1000px;
+            margin: 4rem 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .photo-frame {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            transform-style: preserve-3d;
+            transition: transform 0.8s;
             cursor: pointer;
         }
 
-        @keyframes rotate {
+        .photo-frame:hover {
+            transform: rotateY(20deg) rotateX(10deg);
+        }
+
+        .photo {
+            width: 100%;
+            height: 100%;
+            border-radius: 20px;
+            object-fit: cover;
+            box-shadow: 0 0 30px rgba(255, 107, 107, 0.3);
+            border: 3px solid var(--glass);
+            backdrop-filter: blur(5px);
+        }
+
+        .magic-particle {
+            position: absolute;
+            pointer-events: none;
+            width: 10px;
+            height: 10px;
+            background: var(--accent);
+            border-radius: 50%;
+        }
+
+        .message-box {
+            background-color: burlywood;
+            background: var(--glass);
+            padding: 3rem;
+            border-radius: 20px;
+            margin: 4rem auto;
+            max-width: 800px;
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+
+        .message-box:hover {
+            transform: translateY(-5px);
+        }
+
+        .message-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.2),
+                    transparent);
+            transition: 0.5s;
+        }
+
+        .message-box:hover::before {
+            left: 100%;
+        }
+
+        .message {
+            font-size: 1.4rem;
+            line-height: 2;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .video-container {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            margin: 4rem auto;
+            max-width: 800px;
+            box-shadow: 0 0 40px rgba(78, 205, 196, 0.3);
+        }
+
+        video {
+            width: 100%;
+            height: auto;
+            border-radius: 20px;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.3),
+                    transparent);
+            transition: 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        @keyframes glow {
             from {
-                transform: rotate(0deg);
+                text-shadow: 0 0 10px var(--primary), 0 0 20px var(--primary);
             }
 
             to {
-                transform: rotate(360deg);
+                text-shadow: 0 0 20px var(--primary), 0 0 30px var(--accent);
             }
         }
 
-        @keyframes gradientBG {
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 3rem;
+            }
+
+            .photo-frame {
+                width: 300px;
+                height: 300px;
+            }
+
+            .message {
+                font-size: 1.2rem;
+            }
+        }
+
+        body::after {
+            content: "㊗️永远18岁🌸";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            opacity: 0.08;
+            font-size: 8rem;
+            font-family: 'Dancing Script', cursive;
+            color: rgba(255, 255, 255, 0.3);
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            place-items: center;
+            pointer-events: none;
+            animation: bgText 60s linear infinite;
+            text-shadow: 0 0 50px rgba(188, 60, 60, 0.694);
+        }
+
+        @keyframes bgText {
             0% {
-                background-position: 0% 50%;
+                transform: translateY(0) rotate(-5deg);
+                opacity: 0.08;
             }
 
             50% {
-                background-position: 100% 50%;
+                transform: translateY(-50vh) rotate(5deg);
+                opacity: 0.12;
             }
 
             100% {
-                background-position: 0% 50%;
+                transform: translateY(-100vh) rotate(-5deg);
+                opacity: 0.08;
             }
         }
 
-        @keyframes bounce {
-
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-20px);
-            }
+        /* 调整原有星空层z-index */
+        .stars {
+            z-index: -2;
         }
+
+        /* 其他原有样式保持不变... */
     </style>
 </head>
 
 <body>
+    <canvas class="stars"></canvas>
+    <!-- 新增飞舞照片容器 -->
+    <div class="floating-photos" id="photoContainer"></div>
+
     <div class="container">
-        <h1>🎂 生日快乐！ 🎉</h1>
-        <img src="abc.jpg" class="photo" alt="生日照片">
-        <div class="message">
-            🎉 祝大姐生日快乐！<br>
-            🎁 愿每一天都充满欢笑！<br>
-            🌟 心想事成，万事如意！<br>
-            🎉🌟🎁永远18岁！！！！
+        <!-- 原有页面结构保持不变... -->
+
+        <canvas class="stars"></canvas>
+
+        <div class="container">
+            <div class="header">
+                <h1>✨ 生日快乐！ ✨</h1>
+            </div>
+
+            <div class="photo-container">
+                <div class="photo-frame">
+                    <img src="abc.jpg" class="photo" alt="生日照片">
+                    <div class="magic-particle"></div>
+                </div>
+            </div>
+
+            <div class="message-box">
+                <div class="message">
+                    🌟 亲爱的姐姐，在这特别的日子里<br>
+                    🎉 愿你眼中有星辰，心中有山海<br>
+                    🎁 每一天都充满惊喜与美好<br>
+                    🍰 永远保持18岁的青春活力！<br>
+                    <div style="margin-top: 2rem; font-size: 2rem">🎂🎈🎆</div>
+                </div>
+            </div>
+
+            <div class="video-container">
+                <video id="birthdayVideo" controls preload="metadata">
+                    <source src="your_video.mp4" type="video/mp4">
+                </video>
+            </div>
+
+            <div class="controls">
+                <button class="btn" id="playButton">🎵 播放音乐</button>
+                <button class="btn" id="playVideo">▶ 播放视频</button>
+                <button class="btn" id="magic">✨ 魔法特效</button>
+            </div>
         </div>
-        <video id="birthdayVideo" controls preload="metadata">
-            <source src="your_video.mp4" type="video/mp4">
-            你的浏览器不支持播放此视频。
-        </video>
-        <button id="playButton">播放</button>
-        <button id="pauseButton">暂停</button>
+
+        <audio id="music" loop>
+            <source src="qwe.mp3" type="audio/mpeg">
+        </audio>
+
     </div>
 
     <audio id="music" loop>
@@ -119,45 +395,272 @@
 
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js"></script>
     <script>
-        // 自动播放音乐（微信可能需要点击触发）
-        document.addEventListener('click', function () {
-            const music = document.getElementById('music');
-            music.play();
-        }, { once: true });
+        // 原有星空背景和基础功能...
+        // 五彩星空背景
+        const canvas = document.querySelector('.stars');
+        const ctx = canvas.getContext('2d');
+        let stars = [];
+        const colorPalette = [
+            '#FF6B6B', '#4ECDC4', '#FFE66D',
+            '#C8A2C8', '#FF99CC', '#7BD0FF'
+        ];
 
-        // 彩纸特效
-        function shootConfetti() {
-            confetti({
-                particleCount: 100,
-                spread: 70,
-                origin: { y: 0.6 }
-            });
-            setTimeout(shootConfetti, 1500);
+        function initStars() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            stars = [];
+
+            for (let i = 0; i < 300; i++) {
+                stars.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    r: Math.random() * 2 + 0.5,
+                    speed: Math.random() * 0.1,
+                    color: colorPalette[Math.floor(Math.random() * colorPalette.length)],
+                    alpha: Math.random() * 0.5 + 0.5
+                });
+            }
         }
-        shootConfetti();
 
-        // 动态背景色
-        const colors = ['#ff6b6b', '#4ecdc4', '#ffe66d'];
-        let current = 0;
-        setInterval(() => {
-            document.body.style.background = colors[current];
-            current = (current + 1) % colors.length;
-        }, 3000);
+        function drawStars() {
+            // 创建渐变背景
+            const gradient = ctx.createRadialGradient(
+                canvas.width / 2, canvas.height / 2, 0,
+                canvas.width / 2, canvas.height / 2, Math.max(canvas.width, canvas.height)
+            );
+            gradient.addColorStop(0, 'rgba(25, 25, 35, 0.8)');
+            gradient.addColorStop(1, 'rgba(10, 10, 20, 0.9)');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // 绘制动态星轨
+            ctx.beginPath();
+            stars.forEach(star => {
+                ctx.moveTo(star.x, star.y);
+                ctx.lineTo(
+                    star.x + Math.cos(Date.now() * 0.001) * 20 * star.r,
+                    star.y + Math.sin(Date.now() * 0.001) * 20 * star.r
+                );
+            });
+            ctx.strokeStyle = 'rgba(255,255,255,0.05)';
+            ctx.lineWidth = 0.5;
+            ctx.stroke();
+
+            // 绘制彩色星星
+            stars.forEach(star => {
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.r, 0, Math.PI * 2);
+
+                // 创建光晕效果
+                const gradient = ctx.createRadialGradient(
+                    star.x, star.y, 0,
+                    star.x, star.y, star.r * 3
+                );
+                gradient.addColorStop(0, star.color);
+                gradient.addColorStop(1, 'rgba(255,255,255,0)');
+
+                ctx.fillStyle = gradient;
+                ctx.fill();
+
+                // 动态运动
+                star.x += star.speed;
+                star.alpha = 0.5 + Math.sin(Date.now() * 0.001 + star.x) * 0.5;
+
+                if (star.x > canvas.width) {
+                    star.x = 0;
+                    star.y = Math.random() * canvas.height;
+                }
+            });
+
+            requestAnimationFrame(drawStars);
+        }
+
+        // 初始化
+        initStars();
+        window.addEventListener('resize', initStars);
+        drawStars();
+
+        // 魔法粒子特效
+
+
+        // 初始化
+        initStars();
+        drawStars();
+
+        // 交互事件
+        document.addEventListener('click', (e) => {
+            createParticles(e.clientX, e.clientY);
+            confetti({
+                particleCount: 50,
+                spread: 100,
+                origin: { x: e.clientX / window.innerWidth, y: e.clientY / window.innerHeight },
+
+            });
+        });
+
+        // 音乐控制
+        const music = document.getElementById('music');
+        document.getElementById('playButton').addEventListener('click', () => {
+            music.play();
+            document.querySelector('#playButton').textContent = '🎵 音乐播放中';
+        });
 
         // 视频控制
         const video = document.getElementById('birthdayVideo');
-        const playButton = document.getElementById('playButton');
-        const pauseButton = document.getElementById('pauseButton');
+        document.getElementById('playVideo').addEventListener('click', () => video.play());
 
-        playButton.addEventListener('click', function () {
-            video.play();
+        // 魔法按钮
+        document.getElementById('magic').addEventListener('click', () => {
+            document.body.style.background = `hsl(${Math.random() * 360}, 70%, 20%)`;
+            anime({
+                targets: '.photo-frame',
+                rotateY: '+=360',
+                duration: 2000,
+                easing: 'easeInOutQuad'
+            });
         });
 
-        pauseButton.addEventListener('click', function () {
-            video.pause();
+        // 响应式调整
+        window.addEventListener('resize', initStars);
+
+        // ========== 新增功能代码 ==========
+        // 飞舞照片系统
+        const photos = ['a.jpg', 'b.jpg', 'c.jpg', 'e.jpg', 'f.jpg'];
+        const photoContainer = document.getElementById('photoContainer');
+
+        // 创建飞舞照片
+        photos.forEach((src, index) => {
+            const img = document.createElement('img');
+            img.src = src;
+            img.className = 'floating-photo';
+            img.style.left = `${Math.random() * 90}vw`;
+            img.style.top = `${Math.random() * 90}vh`;
+            photoContainer.appendChild(img);
+
+            // 复杂路径动画
+            anime({
+                targets: img,
+                translateX: [
+                    { value: Math.random() * 300 - 150, duration: 5000 },
+                    { value: Math.random() * 300 - 150, duration: 5000 }
+                ],
+                translateY: [
+                    { value: Math.random() * 300 - 150, duration: 6000 },
+                    { value: Math.random() * 300 - 150, duration: 6000 }
+                ],
+                rotate: [
+                    { value: 360, duration: 8000 },
+                    { value: 0, duration: 8000 }
+                ],
+                easing: 'easeInOutQuad',
+                loop: true,
+                delay: index * 500
+            });
+
+            // 点击照片特效
+            img.addEventListener('click', () => {
+                anime({
+                    targets: img,
+                    scale: [1.5, 1],
+                    rotate: '+=720',
+                    duration: 1000,
+                    easing: 'spring(1, 80, 10, 0)'
+                });
+                confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: {
+                        x: parseFloat(img.style.left) / window.innerWidth,
+                        y: parseFloat(img.style.top) / window.innerHeight
+                    }
+                });
+            });
         });
+
+        // 背景颜色渐变特效
+        let hue = 0;
+        setInterval(() => {
+            hue = (hue + 0.5) % 360;
+            document.body.style.background = `
+                linear-gradient(45deg,
+                hsl(${hue}, 70%, 20%),
+                hsl(${hue + 60}, 70%, 25%),
+                hsl(${hue + 120}, 70%, 20%))`;
+        }, 50);
+
+        // 鼠标轨迹粒子增强
+        document.addEventListener('mousemove', (e) => {
+            if (Math.random() > 0.7) {
+                createParticles(e.clientX + Math.random() * 20 - 10,
+                    e.clientY + Math.random() * 20 - 10);
+            }
+        });
+
+        // 增强魔法按钮功能
+        document.getElementById('magic').addEventListener('click', () => {
+            anime({
+                targets: '.floating-photo',
+                scale: () => anime.random(0.5, 2),
+                rotate: () => anime.random(-360, 360),
+                translateX: () => anime.random(-300, 300),
+                translateY: () => anime.random(-300, 300),
+                duration: 2000,
+                easing: 'easeOutElastic(1, .5)',
+                delay: anime.stagger(100)
+            });
+        });
+        function createParticles(x, y) {
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'magic-particle';
+                particle.style.left = x + 'px';
+                particle.style.top = y + 'px';
+                particle.style.animation = `
+                    particle ${Math.random() * 1 + 0.5}s ease-out forwards
+                `;
+                document.body.appendChild(particle);
+
+                setTimeout(() => particle.remove(), 500);
+            }
+        }
+        function autoConfetti() {
+            const count = 200;         // 粒子数量
+            const defaults = {
+                origin: { y: 0.7 },     // 发射起始位置
+                colors: ['#FF6B6B', '#4ECDC4', '#FFE66D', '#FF99CC', '#C8A2C8'],
+                gravity: 0.8,          // 重力强度
+                ticks: 200,            // 粒子存活时间
+                scalar: 1.2             // 粒子缩放比例
+            };
+
+            function fire(particleRatio, opts) {
+                confetti(Object.assign({}, defaults, opts, {
+                    particleCount: Math.floor(count * particleRatio),
+                    angle: 60 + Math.random() * 60, // 随机角度
+                    spread: 55 + Math.random() * 50,
+                    startVelocity: 35
+                }));
+            }
+
+            // 创建多方向彩带
+            setInterval(() => {
+                fire(0.25, { origin: { x: 0.2 } });  // 左侧发射
+                fire(0.25, { origin: { x: 0.8 } });  // 右侧发射
+                fire(0.5, {                           // 中央发射
+                    spread: 100,
+                    decay: 0.91,
+                    scalar: 1.5
+                });
+            }, 2000);  // 每3秒发射一次
+        }
+
+        // 页面加载后自动启动
+        window.onload = () => {
+            autoConfetti();
+            // 其他初始化代码...
+        };
+        // 原有其他功能代码...
     </script>
 </body>
 
 </html>
-    
