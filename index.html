@@ -45,6 +45,18 @@
             font-size: 18px;
         }
 
+        video {
+            width: 320px;
+            height: 240px;
+            margin: 20px auto;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
         @keyframes rotate {
             from {
                 transform: rotate(0deg);
@@ -93,6 +105,12 @@
             🌟 心想事成，万事如意！<br>
             🎉🌟🎁永远18岁！！！！
         </div>
+        <video id="birthdayVideo" controls preload="metadata">
+            <source src="your_video.mp4" type="video/mp4">
+            你的浏览器不支持播放此视频。
+        </video>
+        <button id="playButton">播放</button>
+        <button id="pauseButton">暂停</button>
     </div>
 
     <audio id="music" loop>
@@ -125,7 +143,21 @@
             document.body.style.background = colors[current];
             current = (current + 1) % colors.length;
         }, 3000);
+
+        // 视频控制
+        const video = document.getElementById('birthdayVideo');
+        const playButton = document.getElementById('playButton');
+        const pauseButton = document.getElementById('pauseButton');
+
+        playButton.addEventListener('click', function () {
+            video.play();
+        });
+
+        pauseButton.addEventListener('click', function () {
+            video.pause();
+        });
     </script>
 </body>
 
 </html>
+    
